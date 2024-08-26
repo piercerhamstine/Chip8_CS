@@ -1,6 +1,6 @@
 namespace Emulator;
 
-enum OpCodes: uint{
+enum OpCodes: ushort{
 
     CLS = 0x00E0,
     RTS = 0x00EE,
@@ -27,4 +27,13 @@ enum OpCodes: uint{
     // Sets I to address NNN
     SETI = 0xA000,
     DRAW = 0xD000,
+    // Load value of VX into Delay Timer
+    LDDTVX = 0xF015,
+    LDFVX = 0xF029,
+    // Store from v0-vx in memory startin at index register
+    LDIV0VX = 0xF055,
+    // Add value of I and VX, store in I
+    ADDIVX = 0xF01E,
+    // Load value of memory starting at I into v0-vx
+    LDVXI = 0xF065,
 }
