@@ -21,12 +21,18 @@ public class Memory{
         this.registerCount = regCount;
         this.memorySize = memSize;
         this.stackSize = stackSize;
-    }
-    
-    private void Initialize(){
+
         ram = new byte[memorySize];
         registers = new ushort[registerCount];
         stack = new ushort[stackSize];
+    }
+
+    public void SetStackPointer(int sp){
+        stackPointer = (byte)sp;
+    }
+
+    public void SetIndexRegister(int i){
+        indexRegister = (ushort)i;
     }
 
     public void SetProgramCounter(int pc){

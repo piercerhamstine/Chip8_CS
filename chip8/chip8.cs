@@ -24,6 +24,5 @@ public class Chip8{
     }
 
     public void Run(string romPath){
-
     }
 }
