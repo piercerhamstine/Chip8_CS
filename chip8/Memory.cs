@@ -68,6 +68,11 @@ public class Memory{
         return vy;
     }
 
+    public ushort GetNNValue(ushort opcode){
+        ushort value = (ushort)(opcode & 0x00FF);
+        return value;
+    }
+
     public ushort GetNNNValue(ushort opcode){
         ushort value = (ushort)(opcode & 0x0FFF);
         return value;
