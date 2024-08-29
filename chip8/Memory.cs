@@ -48,6 +48,11 @@ public class Memory{
         return ram[i];
     }
 
+    public void PushToStack(ushort val){
+        stack[stackPointer] = programCounter;
+        stackPointer += 1;
+    }
+
     public ushort GetOpCodeIdentifier(ushort opcode){
         ushort op = (ushort)(opcode & 0xF000 >> 12);
         return op;

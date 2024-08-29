@@ -2,10 +2,12 @@ namespace Emulator;
 
 enum OpCodes: ushort{
 
-    CLS = 0x00E0,
-    RTS = 0x00EE,
-    JMP = 0x1000,
-    CALLNNN = 0x2000,
+    x00E0 = 0x00E0,
+    x00EE = 0x00EE,
+    // Jump to location NNN
+    x1NNN = 0x1000,
+    // Call subroutine at NNN
+    x2NNN = 0x2000,
     SEVXNN = 0x3000,
     // Skip next instruction if VX != NN
     SNEVXNN = 0x4000,
