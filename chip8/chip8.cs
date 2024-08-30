@@ -1,3 +1,4 @@
+using System.Reflection.Metadata;
 using System.Xml;
 using Microsoft.VisualBasic;
 
@@ -6,13 +7,26 @@ namespace Emulator;
 public class Chip8{
     Memory emuMem;
 
-    bool debugFlag;
-
+    private bool debugFlag;
+    private bool exitFlag;
+    public bool DebugFlag{ get{return debugFlag;} set{debugFlag = value;} }
+    public bool ExitFlag{ get{return exitFlag;} private set{exitFlag=value;} }
+    
     public Chip8(){
         emuMem = new Memory(16, 16, 4096);
+        emuMem.SetProgramCounter(0x200);
+        ExitFlag = false;
     }
 
-    private void ExecuteCycle(){
+    public void LoadRom(string romPath){
+        byte[] fileBytes = File.ReadAllBytes(romPath);
+
+        for(int i = 0; i < fileBytes.Length; ++i){
+            emuMem.SetMemValAt((ushort)(i+512), fileBytes[i]); 
+        }
+    }
+
+    public void ExecuteCycle(){
         ushort pc = emuMem.GetProgramCounter();
         byte mSigByte = emuMem.GetMemValAt(pc);
         byte lSigByte = emuMem.GetMemValAt(pc+1);
@@ -92,7 +106,7 @@ public class Chip8{
             var currPC = emuMem.GetProgramCounter();
             var initialMem = emuMem.GetMemValAt(pc);
             var currMem = emuMem.GetMemValAt(currPC);
-            Console.WriteLine($"Current Program Counter: {currPC}; Initial Mem Val: {initialMem}; Current Mem Val: {currMem}");
+            Console.WriteLine($"Current Program Counter: {currPC}; Initial Mem Val: {initialMem}|{initialMem:X}; Current Mem Val: {currMem}|{currMem:X}");
         }
     }
 
@@ -108,9 +122,5 @@ public class Chip8{
                 break;
             }
         }
-    }
-
-    public void Run(string romPath, bool debugFlag = false){
-        this.debugFlag = debugFlag;
     }
 }
