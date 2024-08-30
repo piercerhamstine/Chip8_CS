@@ -14,10 +14,11 @@ enum OpCodes: ushort{
     x4XNN = 0x4000,
     // Skip next instruction if register:x == register:y
     x5XY0 = 0x5000,
-    LDVXNN = 0x6000,
-    // Add NN to VX, Store in VX
-    ADDVXNN = 0x7000,
-    SETVXVY = 0x8000,
+    // Setx register:x to value of NN
+    x6XNN = 0x6000,
+    // Add value of NN to register:x (No carry flag)
+    x7XNN = 0x7000,
+    x8XY0 = 0x8000,
     SETVXVYOR = 0x8001,
     SETVXVYAND = 0x8002,
     SETVXVYXOR = 0x8003,

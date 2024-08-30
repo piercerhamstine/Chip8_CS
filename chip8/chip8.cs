@@ -1,3 +1,6 @@
+using System.Xml;
+using Microsoft.VisualBasic;
+
 namespace Emulator;
 
 public class Chip8{
@@ -20,10 +23,6 @@ public class Chip8{
     }
 
     private void HandleOpCodes(ushort opcode, ushort pc){
-        if(debugFlag){
-            Console.WriteLine($"Opcode: {opcode}|{opcode:X}; Program Counter: {pc}");
-        }
-
         ushort opID = emuMem.GetOpCodeIdentifier(opcode);
         switch(opID){
             case (ushort)OpCodes.x1NNN:{
@@ -64,6 +63,48 @@ public class Chip8{
                     emuMem.IncrementProgramCounter();
                 }
 
+                break;
+            }
+            case (ushort)OpCodes.x6XNN:{
+                ushort register = emuMem.GetVxValue(opcode);
+                ushort value = emuMem.GetNNValue(opcode);
+
+                emuMem.SetMemValAt(register, value);
+                break;
+            }
+            case (ushort)OpCodes.x7XNN:{
+                ushort register = emuMem.GetVxValue(opcode);
+                ushort value = emuMem.GetNNValue(opcode);
+                
+                ushort newVal = (ushort)(emuMem.GetMemValAt(register) + value);
+                emuMem.SetMemValAt(register, newVal);
+                break;
+            }
+            case 0x8000:{
+                Handle8KCodes(opcode);
+                break;
+            }
+        }
+        
+        if(debugFlag){
+            Console.WriteLine($"Opcode: {opcode}|{opcode:X}; Initial Program Counter: {pc}");
+            
+            var currPC = emuMem.GetProgramCounter();
+            var initialMem = emuMem.GetMemValAt(pc);
+            var currMem = emuMem.GetMemValAt(currPC);
+            Console.WriteLine($"Current Program Counter: {currPC}; Initial Mem Val: {initialMem}; Current Mem Val: {currMem}");
+        }
+    }
+
+    private void Handle8KCodes(ushort opcode){
+        ushort subID = (ushort)(opcode & (0x000F));
+        switch(subID){
+            case (ushort)OpCodes.x8XY0:{
+                ushort registerX = emuMem.GetVxValue(opcode);
+                ushort registerY = emuMem.GetVyValue(opcode);
+
+                ushort val = emuMem.GetMemValAt(registerY);
+                emuMem.SetMemValAt(registerX, val);
                 break;
             }
         }

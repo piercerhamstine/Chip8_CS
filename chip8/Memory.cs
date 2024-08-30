@@ -56,11 +56,14 @@ public class Memory{
     }
 
     public byte GetMemValAt(int idx){
-        ushort i = (ushort)idx;
-        return ram[i];
+        ushort x = (ushort)idx;
+        return ram[x];
     }
 
-
+    public void SetMemValAt(ushort idx, ushort value){
+        ushort x = (ushort)idx;
+        ram[x] = (byte)value; 
+    }
 
     public ushort GetOpCodeIdentifier(ushort opcode){
         ushort op = (ushort)(opcode & 0xF000 >> 12);
