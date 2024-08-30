@@ -15,8 +15,7 @@ public class Chip8{
         byte lSigByte = emuMem.GetMemValAt(pc+1);
 
         ushort opcode = (ushort)((mSigByte << 8) | lSigByte);
-        emuMem.SetProgramCounter(pc+2);
-
+        emuMem.IncrementProgramCounter();
         HandleOpCodes(opcode, pc);
     }
 
@@ -34,7 +33,7 @@ public class Chip8{
             }
             case (ushort)OpCodes.x2NNN:{
                 ushort subrVal = emuMem.GetNNNValue(opcode);
-                emuMem.PushToStack(subrVal);
+                emuMem.PushToStack();
                 emuMem.SetProgramCounter(subrVal);
                 break;
             }
@@ -42,8 +41,27 @@ public class Chip8{
                 ushort register = emuMem.GetVxValue(opcode);
                 ushort value = emuMem.GetNNValue(opcode);
 
+                if(emuMem.GetMemValAt(register) == value){
+                    emuMem.IncrementProgramCounter();
+                }
+
+                break;
+            }
+            case (ushort)OpCodes.x4XNN:{
+                ushort register = emuMem.GetVxValue(opcode);
+                ushort value = emuMem.GetNNValue(opcode);
+
                 if(emuMem.GetMemValAt(register) != value){
-                    emuMem.SetProgramCounter(emuMem.GetProgramCounter() + 2);
+                    emuMem.IncrementProgramCounter();
+                }
+                break;
+            }
+            case (ushort)OpCodes.x5XY0:{
+                ushort registerX = emuMem.GetVxValue(opcode);
+                ushort registerY = emuMem.GetVyValue(opcode);
+
+                if(emuMem.GetMemValAt(registerX) == emuMem.GetMemValAt(registerY)){
+                    emuMem.IncrementProgramCounter();
                 }
 
                 break;

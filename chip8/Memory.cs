@@ -31,6 +31,11 @@ public class Memory{
         stackPointer = (byte)sp;
     }
 
+    public void PushToStack(){
+        stack[stackPointer] = programCounter;
+        stackPointer += 1;
+    }
+
     public void SetIndexRegister(int i){
         indexRegister = (ushort)i;
     }
@@ -43,15 +48,19 @@ public class Memory{
         return programCounter;
     }
 
+    /// <summary>
+    /// Increment program counter by 2.
+    ///</summary>
+    public void IncrementProgramCounter(){
+        programCounter += 2;
+    }
+
     public byte GetMemValAt(int idx){
         ushort i = (ushort)idx;
         return ram[i];
     }
 
-    public void PushToStack(ushort val){
-        stack[stackPointer] = programCounter;
-        stackPointer += 1;
-    }
+
 
     public ushort GetOpCodeIdentifier(ushort opcode){
         ushort op = (ushort)(opcode & 0xF000 >> 12);

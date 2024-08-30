@@ -8,12 +8,12 @@ enum OpCodes: ushort{
     x1NNN = 0x1000,
     // Call subroutine at NNN
     x2NNN = 0x2000,
-    // Skip next instruction if value of register:x != NN 
+    // Skip next instruction if value of register:x == NN 
     x3XNN = 0x3000,
-    // Skip next instruction if VX != NN
-    SNEVXNN = 0x4000,
-    // Skip next instruction if registers VX == VY
-    SEVXVY = 0x5000,
+    // Skip next instruction if value of register:x != NN
+    x4XNN = 0x4000,
+    // Skip next instruction if register:x == register:y
+    x5XY0 = 0x5000,
     LDVXNN = 0x6000,
     // Add NN to VX, Store in VX
     ADDVXNN = 0x7000,
