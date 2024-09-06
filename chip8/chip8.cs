@@ -121,6 +121,22 @@ public class Chip8{
                 emuMem.SetMemValAt(registerX, val);
                 break;
             }
+            case (ushort)OpCodes.x8XY1:{
+                ushort registerX = emuMem.GetVxValue(opcode);
+                ushort registerY = emuMem.GetVyValue(opcode);
+
+                ushort value = (ushort)(emuMem.GetMemValAt(registerX) | emuMem.GetMemValAt(registerY));
+                emuMem.SetMemValAt(registerX, value);
+                break;
+            }
+            case (ushort)OpCodes.x8XY2:{
+                ushort registerX = emuMem.GetVxValue(opcode);
+                ushort registerY = emuMem.GetVyValue(opcode);
+
+                ushort value = (ushort)(emuMem.GetMemValAt(registerX) & emuMem.GetMemValAt(registerY));
+                emuMem.SetMemValAt(registerX, value);
+                break;
+            }
         }
     }
 }

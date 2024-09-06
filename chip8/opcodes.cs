@@ -18,9 +18,12 @@ enum OpCodes: ushort{
     x6XNN = 0x6000,
     // Add value of NN to register:x (No carry flag)
     x7XNN = 0x7000,
+    // Set register:x to value of register:y
     x8XY0 = 0x8000,
-    SETVXVYOR = 0x8001,
-    SETVXVYAND = 0x8002,
+    // Set register:x to register:x | register:y (bitwise OR)
+    x8XY1 = 0x8001,
+    // Set register:x to register:x & register:y (bitwise AND)
+    x8XY2 = 0x8002,
     SETVXVYXOR = 0x8003,
     ADDVXVY = 0x8004,
     SUBVYVX = 0x8005,
