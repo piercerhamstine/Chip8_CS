@@ -112,29 +112,46 @@ public class Chip8{
 
     private void Handle8KCodes(ushort opcode){
         ushort subID = (ushort)(opcode & (0x000F));
+        ushort registerX = emuMem.GetVxValue(opcode);
+        ushort registerY = emuMem.GetVyValue(opcode);
+
         switch(subID){
             case (ushort)OpCodes.x8XY0:{
-                ushort registerX = emuMem.GetVxValue(opcode);
-                ushort registerY = emuMem.GetVyValue(opcode);
-
                 ushort val = emuMem.GetMemValAt(registerY);
                 emuMem.SetMemValAt(registerX, val);
                 break;
             }
             case (ushort)OpCodes.x8XY1:{
-                ushort registerX = emuMem.GetVxValue(opcode);
-                ushort registerY = emuMem.GetVyValue(opcode);
-
                 ushort value = (ushort)(emuMem.GetMemValAt(registerX) | emuMem.GetMemValAt(registerY));
                 emuMem.SetMemValAt(registerX, value);
                 break;
             }
             case (ushort)OpCodes.x8XY2:{
-                ushort registerX = emuMem.GetVxValue(opcode);
-                ushort registerY = emuMem.GetVyValue(opcode);
-
                 ushort value = (ushort)(emuMem.GetMemValAt(registerX) & emuMem.GetMemValAt(registerY));
                 emuMem.SetMemValAt(registerX, value);
+                break;
+            }
+            case (ushort)OpCodes.x8XY3:{
+                ushort value = (ushort)(emuMem.GetMemValAt(registerX) ^ emuMem.GetMemValAt(registerY));
+                emuMem.SetMemValAt(registerX, value);
+                break;
+            }
+            case (ushort)OpCodes.x8XY4:{
+                ushort value = (ushort)(emuMem.GetMemValAt(registerY) + emuMem.GetMemValAt(registerX));
+                if(value > 255u){
+                    emuMem.SetMemValAt(0xF, 1);
+                }else{
+                    emuMem.SetMemValAt(0xF, 0);
+                }
+
+                value = (ushort)(value & 0xFF);
+                emuMem.SetMemValAt(registerX, value);
+                break;
+            }
+            case (ushort)OpCodes.x8XY5:{
+                break;
+            }
+            case (ushort)OpCodes.x8XY6:{
                 break;
             }
         }
